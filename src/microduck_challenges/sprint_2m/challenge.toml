@@ -6,18 +6,18 @@ kind  = "perpetual"
 
 [recipe]                  # the first training, as is
 num_envs       = 4096
-max_iterations = 3000
+max_iterations = 2000
 seed           = 1
 
 [params.forward_reward]
 label = "Follow the speed order"
-value = 2.0
+value = 3.0
 min   = 0.5
 max   = 5.0
 
 [params.upright_reward]
 label = "Stay upright"
-value = 2.0
+value = 0.5
 min   = 0.5
 max   = 5.0
 
