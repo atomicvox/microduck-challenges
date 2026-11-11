@@ -361,8 +361,8 @@ def make_env_cfg(
     # error (heading_error, below) so it can value what this term pays.
     cfg.rewards["heading_hold"] = RewardTermCfg(
         func=microduck_mdp.heading_hold_reward,
-        weight=1.0,
-        params={"std": 0.4, "asset_cfg": SceneEntityCfg("robot")},
+        weight=4.0,
+        params={"std": 0.2, "asset_cfg": SceneEntityCfg("robot")},
     )
 
     # Action smoothness: stage-0 value; the action_rate_weight curriculum below
@@ -683,10 +683,10 @@ def make_env_cfg(
     cfg.commands["head_pose"] = microduck_mdp.UniformPoseCommandCfg(
         resampling_time_range=HEAD_POSE_CMD_RESAMPLE_S,
         ranges=(
-            (-0.05, 0.05),    # neck_pitch
-            (-0.05, 0.05),    # head_pitch
-            (-0.07, 0.07),    # head_yaw
-            (-0.015, 0.015),  # head_roll (tighter — much smaller mechanical range)
+            (-0.05, 0.5),    # neck_pitch (-0.05, 0.05)
+            (-0.1, 0.2),    # head_pitch (-0.05, 0.05)
+            (-0.1, 0.1),    # head_yaw (-0.07, 0.07)
+            (-0.03, 0.03),  # head_roll (tighter — much smaller mechanical range) (-0.015, 0.015)
         ),
     )
     # Body pose command (6D delta from nominal standing: [x, y, z, roll, pitch, yaw]).
@@ -894,9 +894,9 @@ def make_env_cfg(
             "reward_name": "head_pose_bias",
             "weight_stages": [
                 {"step": 0, "weight": 0.0},
-                {"step": 600 * NUM_STEPS_PER_ENV, "weight": 1.0},
-                {"step": 1000 * NUM_STEPS_PER_ENV, "weight": 2.0},
-                {"step": 1500 * NUM_STEPS_PER_ENV, "weight": 3.0},
+                {"step": 600 * NUM_STEPS_PER_ENV, "weight": 1.0}, #1.0
+                {"step": 1000 * NUM_STEPS_PER_ENV, "weight": 2.0}, #2.0
+                {"step": 1500 * NUM_STEPS_PER_ENV, "weight": 3.0}, #3.0
             ],
         },
     )
