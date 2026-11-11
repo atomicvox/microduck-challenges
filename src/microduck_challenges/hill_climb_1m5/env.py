@@ -154,7 +154,7 @@ def heading_error(env: ManagerBasedRlEnv) -> torch.Tensor:
 HILL_TERRAIN_SLOPE_MIN = 0.03
 
 
-def _hill_terrain(max_slope_deg: float) -> TerrainGeneratorCfg:
+def _hill_terrain(min_slop_deg: float, max_slope_deg: float) -> TerrainGeneratorCfg:
     return TerrainGeneratorCfg(
         size=(8.0, 8.0),
         border_width=20.0,
@@ -164,7 +164,7 @@ def _hill_terrain(max_slope_deg: float) -> TerrainGeneratorCfg:
             "flat": terrain_gen.BoxFlatTerrainCfg(proportion=0.2),
             "slope": terrain_gen.HfPyramidSlopedTerrainCfg(
                 proportion=0.8,
-                slope_range=(HILL_TERRAIN_SLOPE_MIN, math.tan(math.radians(max_slope_deg))),
+                slope_range=(math.tan(math.radians(min_slop_deg)), math.tan(math.radians(max_slope_deg))),
                 platform_width=2.0,
                 vertical_scale=0.001,
             ),
@@ -761,7 +761,7 @@ def make_env_cfg(
 
     # Terrain: generated slopes (the course is an 8° lane).
     cfg.scene.terrain.terrain_type = "generator"
-    cfg.scene.terrain.terrain_generator = _hill_terrain(knobs["max_slope_deg"])
+    cfg.scene.terrain.terrain_generator = _hill_terrain(knobs["min_slope_deg"], knobs["max_slope_deg"])
 
     # Kept from the source's rough task (see _soften_terrain_contacts): there
     # it softened hard edges between adjacent box terrains at different

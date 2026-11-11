@@ -27,8 +27,15 @@ value = 6.0
 min   = 0.0
 max   = 6.0
 
+[params.min_slope_deg]
+label = "Shallowest training slope (°)"
+value = 8.0
+min   = 0.0
+max   = 10.0
+
+
 [params.max_slope_deg]
 label = "Steepest training slope (°)"
-value = 10.0
+value = 8.0
 min   = 8.0
 max   = 15.0
